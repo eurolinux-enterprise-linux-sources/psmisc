@@ -1,7 +1,7 @@
 Summary: Utilities for managing processes on your system
 Name: psmisc
 Version: 22.6
-Release: 15%{?dist}.1
+Release: 19%{?dist}
 License: GPLv2+
 Group: Applications/System
 Source: http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
@@ -17,10 +17,12 @@ Patch2: psmisc-22.6-fuser-remove-mountlist.patch
 Patch3: psmisc-22.6-overflow2.patch
 #fix #596055
 Patch4: psmisc-22.6-udp.patch
-#fix #668992
+#fix #643048
 Patch5: psmisc-22.6-peekfd-segv.patch
-#fix #668989
+#fix #666214
 Patch6: psmisc-22.6-killall-pgid.patch
+#fix #981651
+Patch7: psmisc-22.6-long-pid.patch
 
 BuildRequires: libselinux-devel
 BuildRequires: gettext
@@ -44,6 +46,7 @@ of processes that are using specified files or filesystems.
 %patch4 -p1 -b .udp
 %patch5 -p1 -b .peekfd
 %patch6 -p1 -b .killall
+%patch7 -p1 -b .longpid
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS -D_GNU_SOURCE"
@@ -85,10 +88,23 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
-* Wed Jan 12 2011 Jan Görig <jgorig@redhat.com> 22.6-15.el6_0.1
+* Fri Jan 17 2014 Jaromir Capik <jcapik@redhat.com> - 22.6-19
+- fuser now displays PIDs longer than 5 digits correctly (#981651)
+- Resolves: rhbz#981651
+
+* Wed Oct 23 2012 Jaromir Capik <jcapik@redhat.com> 22.6-18
+- Dropping the previously applied fuser patch (#787776)
+- The patch has a negative performance and reliability impact
+- Related: rhbz#787776
+
+* Thu Jul 26 2012 Jaromir Capik <jcapik@redhat.com> 22.6-17
+- #787776 - RHEL6.1 - Netfs fails to unmount unreachable NFS filesystems
+- Resolves: rhbz#787776
+
+* Wed Jan 12 2011 Jan Görig <jgorig@redhat.com> 22.6-16
 - Fixed SIGV in peekfd
 - Fixed unitialized memory in killall
-- Resolves: rhbz#668989, rhbz#668992
+- Resolves: rhbz#643048, rhbz#666214
 
 * Wed May 26 2010 Jan Görig <jgorig@redhat.com> 22.6-15
 - Fixed udp namespace problem in fuser
