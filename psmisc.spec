@@ -1,7 +1,7 @@
 Summary: Utilities for managing processes on your system
 Name: psmisc
 Version: 22.6
-Release: 19%{?dist}
+Release: 24%{?dist}
 License: GPLv2+
 Group: Applications/System
 Source: http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.gz
@@ -23,6 +23,11 @@ Patch5: psmisc-22.6-peekfd-segv.patch
 Patch6: psmisc-22.6-killall-pgid.patch
 #fix #981651
 Patch7: psmisc-22.6-long-pid.patch
+Patch8: psmisc-22.6-fuser-man-sec-auth-restrict.patch
+Patch9: psmisc-22.6-pstree-hidepid-parent-proc.patch
+Patch10: psmisc-22.6-peekfd-ppc64.patch
+Patch11: psmisc-22.6-pstree-fix-orphans.patch
+Patch12: psmisc-22.6-peekfd-manpage-typos-usage-fix.patch
 
 BuildRequires: libselinux-devel
 BuildRequires: gettext
@@ -47,6 +52,11 @@ of processes that are using specified files or filesystems.
 %patch5 -p1 -b .peekfd
 %patch6 -p1 -b .killall
 %patch7 -p1 -b .longpid
+%patch8 -p1
+%patch9 -p1
+%patch10 -p1
+%patch11 -p1
+%patch12 -p1
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS -D_GNU_SOURCE"
@@ -88,6 +98,26 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %changelog
+* Tue Dec 13 2016 Jan Rybar <jrybar@redhat.com> - 22.6-24
+- peekfd: Fix of typos in peekfd manpage; -f option is actually -c
+- Resolves: rhbz#1401593
+
+* Thu Dec 01 2016 Jan Rybar <jrybar@redhat.com> - 22.6-23
+- pstree: Fix missing orphan processes if hidepid is on
+- Related: rhbz#787686
+
+* Thu Nov 03 2016 Jan Rybar <jrybar@redhat.com> - 22.6-22
+- peekfd: Correct support for ppc64 architecture
+- Resolves: rhbz#671135
+
+* Mon Oct 31 2016 Jan Rybar <jrybar@redhat.com> - 22.6-21
+- pstree: show accessible processes when hidepid is on
+- Resolves: rhbz#787686
+
+* Fri Oct 07 2016 Jan Rybar <jrybar@redhat.com> - 22.6-20
+- fuser manpage: note about handling not-owned processes moved from BUGS to RESTRICTIONS
+- Resolves: rhbz#1211743
+
 * Fri Jan 17 2014 Jaromir Capik <jcapik@redhat.com> - 22.6-19
 - fuser now displays PIDs longer than 5 digits correctly (#981651)
 - Resolves: rhbz#981651
