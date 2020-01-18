@@ -1,7 +1,7 @@
 Summary: Utilities for managing processes on your system
 Name: psmisc
 Version: 22.20
-Release: 16%{?dist}
+Release: 8%{?dist}
 License: GPLv2+
 Group: Applications/System
 URL: http://sourceforge.net/projects/psmisc
@@ -19,12 +19,6 @@ Patch3: psmisc-22.20-RH-man-page-scan.patch
 Patch4: pstree-introduce-support-for-namespaces.patch
 Patch5: pstree-introduce-namespace-transition-information.patch
 Patch6: psmisc-22.20-null-ptr-dereference.patch
-Patch7: psmisc-22.20-insufficient-path-len-in-mntinfo.patch
-Patch8: psmisc-22.20-prtstat-man-duplicate-options.patch
-Patch9: psmisc-22.20-fuser-finds-btrfs-procs.patch
-Patch10: psmisc-22.20-fuser-manpage-other-pids-restrict.patch
-Patch11: psmisc-22.20-peekfd-usage-extend-and-fix.patch
-Patch12: psmisc-22-20-no-nullptr-sanity-stalls-nfs.patch
 
 BuildRequires: libselinux-devel
 BuildRequires: gettext
@@ -48,12 +42,6 @@ of processes that are using specified files or filesystems.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
 
 %build
 %configure --prefix=%{_prefix} --enable-selinux
@@ -77,47 +65,13 @@ mv $RPM_BUILD_ROOT%{_bindir}/fuser $RPM_BUILD_ROOT%{_sbindir}
 %{_mandir}/man1/killall.1*
 %{_mandir}/man1/pstree.1*
 %{_mandir}/man1/prtstat.1*
-%ifarch %{ix86} x86_64 ppc %{power64} %{arm} mipsel
+%ifarch %{ix86} x86_64 ppc ppc64 %{arm} mipsel
 %{_bindir}/peekfd
-%{_mandir}/man1/peekfd.1*
-%else
-%exclude %{_mandir}/man1/peekfd.1*
 %endif
+%{_mandir}/man1/peekfd.1*
 %doc AUTHORS ChangeLog COPYING README
 
 %changelog
-* Mon Mar 18 2019 Jan Rybar <jrybar@redhat.com> 22.20-16
-- Added nullptr sanity to scan fns to avoid useless work stalling NFS
-- Resolves: rhbz#1509245
-
-* Wed Mar 29 2017 Jan Rybar <jrybar@redhat.com> 22.20-15
-- peekfd: manpage and usage screen correction - long options
-- Resolves: rhbz#1413632
-
-* Mon Mar 20 2017 Jan Rybar <jrybar@redhat.com> 22.20-14
-- peekfd: manpage now not present on unsupported architectures
-- Resolves: rhbz#1363651
-
-* Tue Mar 14 2017 Jan Rybar <jrybar@redhat.com> 22.20-13
-- fuser manpage: note about invisible other PIDs moved to RESTRICTIONS section
-- Resolves: rhbz#1400126
-
-* Tue Jan 31 2017 Jan Rybar <jrybar@redhat.com> 22.20-12
-- fuser: processes binding btrfs directories can be found now
-- Resolves: rhbz#1340056
-
-* Tue May 24 2016 Jan Rybar <jrybar@redhat.com> 22.20-11
-- Fixing duplication of text in prtstat man page
-- Resolves: rhbz#1265243
-
-* Mon May 16 2016 Jan Rybar <jrybar@redhat.com> 22.20-10
-- Fixing segfault caused by insufficient length for mounting point path
-- Resolves: rhbz#1078887
-
-* Sat Aug  2 2014 Peter Robinson <pbrobinson@redhat.com> 22.20-9
-- Update ppc64 to power64 macro
-- Resolves: rhbz#1125653
-
 * Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 22.20-8
 - Mass rebuild 2014-01-24
 
