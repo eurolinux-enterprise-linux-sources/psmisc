@@ -1,7 +1,7 @@
 Summary: Utilities for managing processes on your system
 Name: psmisc
 Version: 22.20
-Release: 9%{?dist}
+Release: 11%{?dist}
 License: GPLv2+
 Group: Applications/System
 URL: http://sourceforge.net/projects/psmisc
@@ -19,6 +19,8 @@ Patch3: psmisc-22.20-RH-man-page-scan.patch
 Patch4: pstree-introduce-support-for-namespaces.patch
 Patch5: pstree-introduce-namespace-transition-information.patch
 Patch6: psmisc-22.20-null-ptr-dereference.patch
+Patch7: psmisc-22.20-insufficient-path-len-in-mntinfo.patch
+Patch8: psmisc-22.20-prtstat-man-duplicate-options.patch
 
 BuildRequires: libselinux-devel
 BuildRequires: gettext
@@ -42,6 +44,8 @@ of processes that are using specified files or filesystems.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
+%patch8 -p1
 
 %build
 %configure --prefix=%{_prefix} --enable-selinux
@@ -72,6 +76,14 @@ mv $RPM_BUILD_ROOT%{_bindir}/fuser $RPM_BUILD_ROOT%{_sbindir}
 %doc AUTHORS ChangeLog COPYING README
 
 %changelog
+* Tue May 24 2016 Jan Rybar <jrybar@redhat.com> 22.20-11
+- Fixing duplication of text in prtstat man page
+- Resolves: rhbz#1265243
+
+* Mon May 16 2016 Jan Rybar <jrybar@redhat.com> 22.20-10
+- Fixing segfault caused by insufficient length for mounting point path
+- Resolves: rhbz#1078887
+
 * Sat Aug  2 2014 Peter Robinson <pbrobinson@redhat.com> 22.20-9
 - Update ppc64 to power64 macro
 - Resolves: rhbz#1125653
