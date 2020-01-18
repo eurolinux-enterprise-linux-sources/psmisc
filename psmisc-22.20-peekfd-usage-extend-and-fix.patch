@@ -1,0 +1,34 @@
+diff -up ./doc/peekfd.1.ori ./doc/peekfd.1
+--- ./doc/peekfd.1.ori	2017-03-29 10:50:34.386811561 +0200
++++ ./doc/peekfd.1	2017-03-29 10:50:49.850755241 +0200
+@@ -13,7 +13,7 @@ peekfd \- peek at file descriptors of ru
+ .B peekfd 
+ .RB [ \-8 , \-\-eight\-bit\-clean ]
+ .RB [ \-n , \-\-no\-headers ]
+-.RB [ \-f , \-\-follow ]
++.RB [ \-c , \-\-follow ]
+ .RB [ \-d , \-\-duplicates\-removed ]
+ .RB [ \-V , \-\-version ]
+ .RB [ \-h , \-\-help ]
+diff -up ./src/peekfd.c.ori ./src/peekfd.c
+--- ./src/peekfd.c.ori	2017-03-29 10:50:23.450851390 +0200
++++ ./src/peekfd.c	2017-03-29 10:50:49.850755241 +0200
+@@ -114,12 +114,12 @@ void print_version()
+ void usage() {
+ 	fprintf(stderr, _(
+       "Usage: peekfd [-8] [-n] [-c] [-d] [-V] [-h] <pid> [<fd> ..]\n"
+-	  "    -8 output 8 bit clean streams.\n"
+-	  "    -n don't display read/write from fd headers.\n"
+-	  "    -c peek at any new child processes too.\n"
+-	  "    -d remove duplicate read/writes from the output.\n"
+-	  "    -V prints version info.\n"
+-	  "    -h prints this help.\n"
++	  "    -8, --eight-bit-clean        output 8 bit clean streams.\n"
++	  "    -n, --no-headers             don't display read/write from fd headers.\n"
++	  "    -c, --follow                 peek at any new child processes too.\n"
++	  "    -d, --duplicates-removed     remove duplicate read/writes from the output.\n"
++	  "    -V, --version                prints version info.\n"
++	  "    -h, --help                   prints this help.\n"
+ 	  "\n"
+ 	  "  Press CTRL-C to end output.\n"));
+ }
