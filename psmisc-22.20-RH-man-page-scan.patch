@@ -1,0 +1,39 @@
+diff -Naur psmisc-22.20.orig/doc/fuser.1 psmisc-22.20/doc/fuser.1
+--- psmisc-22.20.orig/doc/fuser.1	2012-09-19 12:54:03.000000000 +0200
++++ psmisc-22.20/doc/fuser.1	2013-07-30 18:59:38.975335764 +0200
+@@ -170,8 +170,8 @@
+ \fB\-\fISIGNAL\fR
+ Use the specified signal instead of SIGKILL when killing processes.
+ Signals can be specified either by name (e.g.
+-.BR \-HUP ) or by
+-number (e.g.
++.BR \-HUP )
++or by number (e.g.
+ .BR \-1 ).
+ This option is silently ignored if the
+ .B \-k
+diff -Naur psmisc-22.20.orig/doc/peekfd.1 psmisc-22.20/doc/peekfd.1
+--- psmisc-22.20.orig/doc/peekfd.1	2012-09-19 12:54:03.000000000 +0200
++++ psmisc-22.20/doc/peekfd.1	2013-07-30 19:10:32.582099617 +0200
+@@ -37,7 +37,7 @@
+ .IP -d
+ Remove duplicate read/writes from the output.  If you're looking at a
+ tty with echo, you might want this.
+-.IP -v
++.IP -V
+ Display a version string.
+ .IP -h
+ Display a help message.
+diff -Naur psmisc-22.20.orig/src/pstree.c psmisc-22.20/src/pstree.c
+--- psmisc-22.20.orig/src/pstree.c	2013-07-30 18:53:21.000000000 +0200
++++ psmisc-22.20/src/pstree.c	2013-07-30 19:17:14.057288441 +0200
+@@ -860,7 +860,8 @@
+              "  -V, --version       display version information\n"));
+ #ifdef WITH_SELINUX
+     fprintf(stderr,
+-            _("  -Z     show         SELinux security contexts\n"));
++           _("  -Z,\n"
++             "  --security-context   show SELinux security contexts\n"));
+ #endif                                /*WITH_SELINUX */
+     fprintf(stderr, _("  PID    start at this PID; default is 1 (init)\n"
+                       "  USER   show only trees rooted at processes of this user\n\n"));

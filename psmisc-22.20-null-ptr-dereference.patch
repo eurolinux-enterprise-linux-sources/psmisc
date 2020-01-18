@@ -1,0 +1,31 @@
+diff -Naur psmisc-22.20.orig/src/pstree.c psmisc-22.20/src/pstree.c
+--- psmisc-22.20.orig/src/pstree.c	2013-10-21 15:31:15.000000000 +0200
++++ psmisc-22.20/src/pstree.c	2013-10-21 15:30:58.000000000 +0200
+@@ -222,7 +222,12 @@
+     }
+ 
+     if (!ptr) {
+-        ptr = malloc(sizeof(*ptr));
++
++        if (!(ptr = malloc(sizeof(*ptr)))) {
++            perror("malloc");
++            exit(1);
++        }
++
+         memset(ptr, 0, sizeof(*ptr));
+         ptr->number = r->ns[id];
+         if (*root == NULL)
+@@ -234,7 +239,12 @@
+     /* move the child to under the namespace's umbrella */
+     for (c = &ptr->children; *c; c = &(*c)->next)
+         ;
+-    *c = malloc(sizeof(CHILD));
++
++    if (!(*c = malloc(sizeof(CHILD)))) {
++        perror("malloc");
++        exit(1);
++    }
++
+     (*c)->child = r;
+     (*c)->next = NULL;
+ 
