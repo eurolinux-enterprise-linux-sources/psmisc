@@ -1,7 +1,7 @@
 Summary: Utilities for managing processes on your system
 Name: psmisc
 Version: 22.20
-Release: 15%{?dist}
+Release: 16%{?dist}
 License: GPLv2+
 Group: Applications/System
 URL: http://sourceforge.net/projects/psmisc
@@ -24,6 +24,7 @@ Patch8: psmisc-22.20-prtstat-man-duplicate-options.patch
 Patch9: psmisc-22.20-fuser-finds-btrfs-procs.patch
 Patch10: psmisc-22.20-fuser-manpage-other-pids-restrict.patch
 Patch11: psmisc-22.20-peekfd-usage-extend-and-fix.patch
+Patch12: psmisc-22-20-no-nullptr-sanity-stalls-nfs.patch
 
 BuildRequires: libselinux-devel
 BuildRequires: gettext
@@ -52,6 +53,7 @@ of processes that are using specified files or filesystems.
 %patch9 -p1
 %patch10 -p1
 %patch11 -p1
+%patch12 -p1
 
 %build
 %configure --prefix=%{_prefix} --enable-selinux
@@ -84,6 +86,10 @@ mv $RPM_BUILD_ROOT%{_bindir}/fuser $RPM_BUILD_ROOT%{_sbindir}
 %doc AUTHORS ChangeLog COPYING README
 
 %changelog
+* Mon Mar 18 2019 Jan Rybar <jrybar@redhat.com> 22.20-16
+- Added nullptr sanity to scan fns to avoid useless work stalling NFS
+- Resolves: rhbz#1509245
+
 * Wed Mar 29 2017 Jan Rybar <jrybar@redhat.com> 22.20-15
 - peekfd: manpage and usage screen correction - long options
 - Resolves: rhbz#1413632
